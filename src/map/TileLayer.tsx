@@ -1,6 +1,8 @@
 import classNames from 'classnames';
+import proj4 from 'proj4';
 import { CommonProps } from '../common/CommonProps';
 import { DebugOverlay } from './DebugOverlay';
+import { Dot } from './Dot';
 import { MapContext } from './MapContext';
 import { MapSettings } from './MapSettings';
 import { MapState } from './MapState';
@@ -13,8 +15,10 @@ export function TileLayer(props: Readonly<{
 	mapState: MapState;
 	mapSettings: MapSettings;
 	tileLayerSettings: TileLayerSettings;
+	coorX: number;
+	coorY:number;
 }> & CommonProps) {
-	const { mapContext, mapState, mapSettings, tileLayerSettings } = props;
+	const { mapContext, mapState, mapSettings, tileLayerSettings, coorX, coorY } = props;
 	const { centerX, centerY, mapZoom } = mapState;
 	const { width, height } = mapContext;
 	const { debug } = mapSettings;
@@ -70,6 +74,21 @@ export function TileLayer(props: Readonly<{
 			}
 		}
 	}
+	const [x, y] = proj4('WGS84', 'EPSG:3857', [coorX, coorY]);
+	const size = 20037508.3427892;
+	const xCoord = (x + size) / (size * 2);
+	const yCoord = 1 - (y + size) / (size * 2);
+	const pointLeft = -left + worldSize * xCoord;
+	const pointTop = -top + worldSize * yCoord;
+	const point = (
+		<Dot
+			key={'point'}
+			dotX={pointLeft}
+			dotY={pointTop}
+		></Dot>
+	);
+	tiles.push(point);
+
 	return (
 		<div
 			className={classNames('TileLayer', props.className)}

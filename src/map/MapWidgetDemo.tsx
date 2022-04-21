@@ -11,6 +11,8 @@ export function MapWidgetDemo() {
 	const [maxHeight, setMaxHeight] = useState<number>(1000);
 	const [mapState, setMapState] = useState<MapState>(defaultMapState);
 	const [mapSettings, setMapSettings] = useState<MapSettings>(defaultMapSettings);
+	const [coorX, setCoorX] = useState<number>(0);
+	const [coorY, setCoorY] = useState<number>(0);
 	const centerStep = 10 * Math.pow(0.5, mapState.mapZoom);
 	return (
 		<div className="MapWidgetDemo">
@@ -67,11 +69,31 @@ export function MapWidgetDemo() {
 						onChange={event => setMapSettings({ ...mapSettings, debug: event.target.checked })}
 					></input>
 				</Labelled>
+				<div>
+					<Labelled label="X">
+	`					<NumberInput
+							min={-90}
+							max={90}
+							value={coorX}
+							onChange={value => setCoorX(value)}
+						></NumberInput>
+`					</Labelled>
+					<Labelled label="Y">
+						<NumberInput
+							min={-180}
+							max={180}
+							value={coorY}
+							onChange={value => setCoorY(value)}
+						></NumberInput>
+					</Labelled>
+				</div>
 			</div>
 			<MapWidget
 				mapState={mapState}
 				onMapStateChange={setMapState}
 				mapSettings={mapSettings}
+				coorX={coorX}
+				coorY={coorY}
 				style={{
 					maxWidth,
 					maxHeight,

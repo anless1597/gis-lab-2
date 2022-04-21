@@ -1,0 +1,11 @@
+.Dot {
+/*	visibility: hidden;*/
+	width: 10px;
+  height: 10px;
+  border: 2px solid red;
+  border-radius: 50%;
+  background: red;
+	margin-top: -5px;
+	margin-left: -5px;
+	position: absolute;
+}

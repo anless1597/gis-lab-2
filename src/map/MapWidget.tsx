@@ -11,11 +11,14 @@ import './MapWidget.css';
 import { TileLayer } from './TileLayer';
 import { defaultTileLayerSettings, TileLayerSettings } from './TileLayerSettings';
 
+
 export function MapWidget(props: Partial<Readonly<{
 	mapSettings: MapSettings;
 	mapState: MapState;
 	onMapStateChange: (mapState: Readonly<MapState>) => void;
 	tileLayerSettings: Readonly<TileLayerSettings>;
+	coorX: number;
+	coorY: number;
 }>> & CommonProps) {
 	const [internalMapState, setInternalMapState] = useState<Readonly<MapState>>(() => {
 		return props.mapState ?? defaultMapState;
@@ -80,6 +83,8 @@ export function MapWidget(props: Partial<Readonly<{
 			mapSettings={mapSettings}
 			mapState={mapState}
 			tileLayerSettings={tileLayerSettings}
+			coorX = {props.coorX ?? 0}
+			coorY = {props.coorY ?? 0}
 		></TileLayer>
 		{mapSettings.debug &&
 			<DebugOverlay style={{ left: 0, top: 0, minWidth: 300 }}>
